@@ -45,6 +45,7 @@
 
 ;; Local Variables:
 ;; indent-tabs-mode: nil
+;; package-lint-main-file: "../smie-base.el"
 ;; End:
 
 ;;; smie-base-rnc.el ends here
