@@ -77,7 +77,16 @@
            (progn (forward-char -1) (point)))
         (smie-default-backward-token)))))
 
-
+(defun smie-base-rnc-smie-rules (kind token)
+  "A smie-rules for `smie-base-rnc-mode'.
+TOKEN is recognized as KIND."
+  (pcase (cons kind token)
+    (`(:before . "{")
+     (save-excursion
+       (smie-base-rnc-smie-backward-token)
+       (when (member (smie-base-rnc-smie-backward-token)
+                     '("element" "attribute"))
+         `(column . ,(smie-indent-virtual)))))))
 
 (define-derived-mode smie-base-rnc-mode prog-mode "sb-RNC"
   "Major-mode for RNC of SMIE collection."
