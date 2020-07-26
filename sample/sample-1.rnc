@@ -1,0 +1,16 @@
+datatypes xsd = "http://www.w3.org/2001/XMLSchema-datatypes"
+
+start = element recettes { recettes }
+
+recettes = recette+ |
+           element group {
+               attribute nom { string },
+               recettes
+           }
+
+recette = element recette {
+              attribute nom { string },
+              attribute photo { xsd:anyURI }? ,
+              ingredients,
+              etapes
+          }
