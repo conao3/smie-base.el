@@ -25,6 +25,8 @@
 
 ;;; Code:
 
+(require 'smie)
+
 (defgroup smie-base-rnc nil
   "Major-mode for RNC of SMIE collection."
   :group 'convenience
@@ -40,6 +42,24 @@
     (modify-syntax-entry ?: "_" st)
     st)
   "A `syntax-table' for `smie-base-rnc-mode'.")
+
+(defconst smie-base-rnc-smie-grammar
+  (smie-prec2->grammar
+   (smie-bnf->prec2
+    '((id)
+      (args (id) ("{" pattern "}"))
+      (decls (id "=" pattern)
+             (decls " ; " decls))
+      (pattern ("element" args)
+               ("attribute" args)
+               (pattern "," pattern)
+               (pattern "|" pattern)
+               (pattern "?")
+               (pattern "+")))
+    ;; Resolve precedence ambiguities.
+    '((assoc " ; "))
+    '((assoc "," "|") (nonassoc "?" "+"))))
+  "A smie-grammar for `smie-base-rnc-mode'.")
 
 (provide 'smie-base-rnc)
 
