@@ -36,7 +36,10 @@
   (let ((st (make-syntax-table)))
     (modify-syntax-entry ?# "<" st)
     (modify-syntax-entry ?\n ">" st)
+    (modify-syntax-entry ?- "_" st)
+    (modify-syntax-entry ?. "_" st)
     (modify-syntax-entry ?: "_" st)
+    (modify-syntax-entry ?_ "_" st)
     st)
   "A `syntax-table' for `smie-base-rnc-mode'.")
 
