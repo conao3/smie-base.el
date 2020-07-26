@@ -27,7 +27,71 @@
 
 (require 'cort)
 (require 'smie-base)
+(require 'smie-base-rnc-mini)
 
+(setq-default indent-tabs-mode nil)
+
+(defmacro cort--buffer-string-with-indent ()
+  "Get `buffer-string' after indent whole buffer."
+  `(progn
+     (let ((inhibit-message t))
+       (indent-region (point-min) (point-max))
+       (buffer-substring-no-properties (point-min) (point-max)))))
+
+(defmacro cort-deftest--major-mode-indent (name mode testlst)
+  "Define a test case with the NAME for MODE.
+TESTLST is list of (GIVEN EXPECT)."
+  (declare (indent 2))
+  `(cort-deftest ,name
+     (cort-generate :equal
+       ',(mapcar
+          (lambda (elm)
+            `((with-temp-buffer
+                (insert ,(car elm))
+                (,(eval mode))
+                (cort--buffer-string-with-indent))
+              ,(cadr elm)))
+          (eval testlst)))))
+
+
+;;; smie-base-rnc-mini
+
+(cort-deftest--major-mode-indent smie-base-rnc-mini/sample-1
+    #'smie-base-rnc-mini-mode
+  '(("\
+datatypes xsd = \"http://www.w3.org/2001/XMLSchema-datatypes\"
+
+start = element recettes { recettes }
+
+recettes = recette+ |
+element group {
+attribute nom { string },
+recettes
+}
+
+recette = element recette {
+attribute nom { string },
+attribute photo { xsd:anyURI }? ,
+ingredients,
+etapes
+}"
+     "\
+datatypes xsd = \"http://www.w3.org/2001/XMLSchema-datatypes\"
+
+start = element recettes { recettes }
+
+recettes = recette+ |
+           element group {
+               attribute nom { string },
+               recettes
+           }
+
+recette = element recette {
+              attribute nom { string },
+              attribute photo { xsd:anyURI }? ,
+              ingredients,
+              etapes
+          }")))
 
 ;; (provide 'smie-base-tests)
 
