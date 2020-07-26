@@ -43,6 +43,13 @@
     st)
   "A `syntax-table' for `smie-base-rnc-mode'.")
 
+(defconst smie-base-rnc--def-regexp
+  "^[ \t]*\\([\\[:alpha:]][[:alnum:]-._]*\\)[ \t]*=")
+
+(defconst smie-base-rnc-imenu-generic-expression
+  `((nil ,smie-base-rnc--def-regexp 1))
+  "A `imenu-generic-expression' for `smie-base-rnc-mode'.")
+
 (defconst smie-base-rnc-mode-font-lock-keywords
   `((,(regexp-opt
        '("namespace" "default" "datatypes" "element" "attribute"
@@ -51,7 +58,7 @@
          "string" "token" "inherit")
        'symbols)
      . font-lock-keyword-face)
-    ("^[ \t]*\\([\\[:alpha:]][[:alnum:]-._]*\\)[ \t]*="
+    (,smie-base-rnc--def-regexp
      (1 font-lock-function-name-face))
     ("attribute[ \t\n]+\\([^ ]+\\)"
      (1 'nxml-attribute-local-name))
@@ -129,6 +136,7 @@ TOKEN is recognized as KIND."
   "Major-mode for RNC of SMIE collection."
   (setq-local comment-start "#")
   (setq-local font-lock-defaults '(smie-base-rnc-mode-font-lock-keywords))
+  (setq-local imenu-generic-expression smie-base-rnc-imenu-generic-expression)
   (smie-setup smie-base-rnc-smie-grammar #'smie-base-rnc-smie-rules
               :forward-token #'smie-base-rnc-smie-forward-token
               :backward-token #'smie-base-rnc-smie-backward-token))
