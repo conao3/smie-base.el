@@ -34,9 +34,6 @@
 
 (defconst smie-base-rnc-mode-syntax-table
   (let ((st (make-syntax-table)))
-    (modify-syntax-entry ?\{ "(}" st)
-    (modify-syntax-entry ?\} "){" st)
-    (modify-syntax-entry ?\" "\"" st)
     (modify-syntax-entry ?# "<" st)
     (modify-syntax-entry ?\n ">" st)
     (modify-syntax-entry ?: "_" st)
