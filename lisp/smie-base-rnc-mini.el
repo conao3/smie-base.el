@@ -1,4 +1,4 @@
-;;; smie-base-rnc-mini.el --- Major-mode for RNC of SMIE collection  -*- lexical-binding: t; -*-
+;;; smie-base-rnc-mini.el --- Major-mode for RNC-MINI of SMIE collection  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2020  Naoya Yamashita
 
@@ -20,7 +20,7 @@
 
 ;;; Commentary:
 
-;; Major-mode for RNC of SMIE collection.
+;; Major-mode for RNC-MINI of SMIE collection.
 
 
 ;;; Code:
@@ -28,7 +28,7 @@
 (require 'smie)
 
 (defgroup smie-base-rnc-mini nil
-  "Major-mode for RNC of SMIE collection."
+  "Major-mode for RNC-MINI of SMIE collection."
   :group 'convenience
   :link '(url-link :tag "Github" "https://github.com/conao3/smie-base.el"))
 
@@ -124,8 +124,8 @@ TOKEN is recognized as KIND."
          `(column . ,(smie-indent-virtual)))))
     (`(:after . ,(or "=" "|=" "&=")) smie-indent-basic)))
 
-(define-derived-mode smie-base-rnc-mini-mode prog-mode "sb-RNC"
-  "Major-mode for RNC of SMIE collection."
+(define-derived-mode smie-base-rnc-mini-mode prog-mode "sb-RNC-MINI"
+  "Major-mode for RNC-MINI of SMIE collection."
   (setq-local comment-start "#")
   (setq-local font-lock-defaults '(smie-base-rnc-mini-mode-font-lock-keywords))
   (setq-local imenu-generic-expression smie-base-rnc-mini-imenu-generic-expression)
