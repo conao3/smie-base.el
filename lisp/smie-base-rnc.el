@@ -61,6 +61,23 @@
     '((assoc "," "|") (nonassoc "?" "+"))))
   "A smie-grammar for `smie-base-rnc-mode'.")
 
+(defun smie-base-rnc-smie-forward-token ()
+  "A smie-forward-token for `smie-base-rnc-mode'."
+  (let ((start (point)))
+    (forward-comment (point-max))
+    (if (and (> (point) start)
+             (looking-at "\\(?:\\s_\\|\\sw\\)+[ \t\n]*[|&]?=")
+             (save-excursion
+               (goto-char start)
+               (forward-comment -1)
+               (= (point) start)))
+        " ; "
+      (if (looking-at "\\s.")
+      	  (buffer-substring-no-properties
+      	   (point)
+      	   (progn (forward-char 1) (point)))
+	(smie-default-forward-token)))))
+
 (defun smie-base-rnc-smie-backward-token ()
   "A smie-backward-token for `smie-base-rnc-mode'."
   (let ((start (point)))
@@ -92,6 +109,7 @@ TOKEN is recognized as KIND."
   "Major-mode for RNC of SMIE collection."
   (setq-local comment-start "#")
   (smie-setup smie-base-rnc-smie-grammar #'smie-base-rnc-smie-rules
+              :forward-token #'smie-base-rnc-smie-forward-token
               :backward-token #'smie-base-rnc-smie-backward-token))
 
 (provide 'smie-base-rnc)
