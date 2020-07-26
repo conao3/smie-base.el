@@ -127,12 +127,19 @@ Taken from the grammar in http://relaxng.org/compact-20021121.html")
   "A smie-rules for `smie-base-rnc-mode'.
 TOKEN is recognized as KIND."
   (pcase (cons kind token)
+    (`(:list-intro . "element") t)
+    (`(:elem . empty-line-token) " ; ") ; newline indent
+    (`(:before . ,(or "include" "default" "namespace" "datatypes")) 0)
     (`(:before . "{")
      (save-excursion
        (smie-base-rnc-smie-backward-token)
        (when (member (smie-base-rnc-smie-backward-token)
                      '("element" "attribute"))
-         `(column . ,(smie-indent-virtual)))))))
+         `(column . ,(smie-indent-virtual)))))
+    (`(:after . ,(or "=" "|=" "&=")) smie-indent-basic)
+    (`(:before . ,(or "|" "&" ","))
+     (and (smie-rule-bolp) (smie-rule-parent-p "(" "{") (smie-rule-parent)))
+    (`(,_ . " ; ") (smie-rule-separator kind))))
 
 (define-derived-mode smie-base-rnc-mode prog-mode "sb-RNC"
   "Major-mode for RNC of SMIE collection."
