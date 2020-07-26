@@ -61,6 +61,30 @@
     '((assoc "," "|") (nonassoc "?" "+"))))
   "A smie-grammar for `smie-base-rnc-mode'.")
 
+(defun smie-base-rnc-smie-backward-token ()
+  "A smie-backward-token for `smie-base-rnc-mode'."
+  (let ((start (point)))
+    (forward-comment (- (point)))
+    (if (and (< (point) start)
+             (let ((pos (point)))
+               (goto-char start)
+               (prog1 (looking-at "\\(?:\\ s_\\|\\sw\\)+[ \t\n]*=")
+                 (goto-char pos))))
+        " ; "
+      (if (looking-back "\\s." (1- (point)))
+          (buffer-substring-no-properties
+           (point)
+           (progn (forward-char -1) (point)))
+        (smie-default-backward-token)))))
+
+
+
+(define-derived-mode smie-base-rnc-mode prog-mode "sb-RNC"
+  "Major-mode for RNC of SMIE collection."
+  (setq-local comment-start "#")
+  (smie-setup smie-base-rnc-smie-grammar #'smie-base-rnc-smie-rules
+              :backward-token #'smie-base-rnc-smie-backward-token))
+
 (provide 'smie-base-rnc)
 
 ;; Local Variables:
