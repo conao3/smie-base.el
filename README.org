@@ -46,6 +46,16 @@ Any feedback or suggestions are welcome!
 You can use github issues, but you can also use [[https://conao3-support.slack.com/join/shared_invite/enQtNjUzMDMxODcyMjE1LWUwMjhiNTU3Yjk3ODIwNzAxMTgwOTkxNmJiN2M4OTZkMWY0NjI4ZTg4MTVlNzcwNDY2ZjVjYmRiZmJjZDU4MDE][Slack]]
 if you want a more casual conversation.
 
+** Sample files
+We use [[https://github.com/approvers/RADWIMPS][RADWIMPS project]] (MIT License) as simple sample code.
+
+Exec below command to merge upstream changes.
+
+#+begin_src bash
+  git remote add radwinps https://github.com/approvers/RADWIMPS.git
+  git merge -X subtree=sample radwimps/master --allow-unrelated-histories
+#+end_src 
+
 ** Contribution
 We welcome PR!
 
