@@ -43,6 +43,26 @@
     st)
   "A `syntax-table' for `smie-base-rnc-mode'.")
 
+(defconst smie-base-rnc-mode-font-lock-keywords
+  `((,(regexp-opt
+       '("namespace" "default" "datatypes" "element" "attribute"
+         "list" "mixed" "parent" "empty" "text" "notAllowed" "external"
+         "grammar" "div" "include" ;; "start"
+         "string" "token" "inherit")
+       'symbols)
+     . font-lock-keyword-face)
+    ("^[ \t]*\\([\\[:alpha:]][[:alnum:]-._]*\\)[ \t]*="
+     (1 font-lock-function-name-face))
+    ("attribute[ \t\n]+\\([^ ]+\\)"
+     (1 'nxml-attribute-local-name))
+    ;; FIXME: We'd like to use nxml-element-local-name for element names,
+    ;; but by default this looks exactly like font-lock-function-name-face,
+    ;; which we want to use for local pattern definitions.
+    ;; ("element[ \t\n]+\\([^ ]+\\)" (1 'nxml-element-local-name))
+    )
+  "A `font-lock-keywords' for `smie-base-rnc-mode'.
+Taken from the grammar in http://relaxng.org/compact-20021121.html")
+
 (defconst smie-base-rnc-smie-grammar
   (smie-prec2->grammar
    (smie-bnf->prec2
@@ -108,6 +128,7 @@ TOKEN is recognized as KIND."
 (define-derived-mode smie-base-rnc-mode prog-mode "sb-RNC"
   "Major-mode for RNC of SMIE collection."
   (setq-local comment-start "#")
+  (setq-local font-lock-defaults '(smie-base-rnc-mode-font-lock-keywords))
   (smie-setup smie-base-rnc-smie-grammar #'smie-base-rnc-smie-rules
               :forward-token #'smie-base-rnc-smie-forward-token
               :backward-token #'smie-base-rnc-smie-backward-token))
