@@ -32,7 +32,7 @@
   :group 'convenience
   :link '(url-link :tag "Github" "https://github.com/conao3/smie-base.el"))
 
-(defconst smie-base-rnc-mode-syntax-table
+(defconst smie-base-rnc-syntax-table
   (let ((st (make-syntax-table)))
     (modify-syntax-entry ?# "<" st)
     (modify-syntax-entry ?\n ">" st)
@@ -50,7 +50,7 @@
   `((nil ,smie-base-rnc--def-regexp 1))
   "A `imenu-generic-expression' for `smie-base-rnc-mode'.")
 
-(defconst smie-base-rnc-mode-font-lock-keywords
+(defconst smie-base-rnc-font-lock-keywords
   `((,(regexp-opt
        '("namespace" "default" "datatypes" "element" "attribute"
          "list" "mixed" "parent" "empty" "text" "notAllowed" "external"
@@ -143,8 +143,9 @@ TOKEN is recognized as KIND."
 
 (define-derived-mode smie-base-rnc-mode prog-mode "sb-RNC"
   "Major-mode for RNC of SMIE collection."
+  :syntax-table smie-base-rnc-syntax-table
   (setq-local comment-start "#")
-  (setq-local font-lock-defaults '(smie-base-rnc-mode-font-lock-keywords))
+  (setq-local font-lock-defaults '(smie-base-rnc-font-lock-keywords))
   (setq-local imenu-generic-expression smie-base-rnc-imenu-generic-expression)
   (smie-setup smie-base-rnc-smie-grammar #'smie-base-rnc-smie-rules
               :forward-token #'smie-base-rnc-smie-forward-token
