@@ -36,10 +36,7 @@
   (let ((st (make-syntax-table)))
     (modify-syntax-entry ?# "<" st)
     (modify-syntax-entry ?\n ">" st)
-    (modify-syntax-entry ?- "_" st)
-    (modify-syntax-entry ?. "_" st)
     (modify-syntax-entry ?: "_" st)
-    (modify-syntax-entry ?_ "_" st)
     st)
   "A `syntax-table' for `smie-base-rnc-mini-mode'.")
 
@@ -59,14 +56,7 @@
        'symbols)
      . font-lock-keyword-face)
     (,smie-base-rnc-mini--def-regexp
-     (1 font-lock-function-name-face))
-    ("attribute[ \t\n]+\\([^ ]+\\)"
-     (1 'nxml-attribute-local-name))
-    ;; FIXME: We'd like to use nxml-element-local-name for element names,
-    ;; but by default this looks exactly like font-lock-function-name-face,
-    ;; which we want to use for local pattern definitions.
-    ;; ("element[ \t\n]+\\([^ ]+\\)" (1 'nxml-element-local-name))
-    )
+     (1 font-lock-function-name-face)))
   "A `font-lock-keywords' for `smie-base-rnc-mini-mode'.
 Taken from the grammar in http://relaxng.org/compact-20021121.html")
 
@@ -81,13 +71,11 @@ Taken from the grammar in http://relaxng.org/compact-20021121.html")
                ("attribute" args)
                (pattern "," pattern)
                (pattern "|" pattern)
-               (pattern "&" pattern)
                (pattern "?")
-               (pattern "+")
-               (pattern "*")))
+               (pattern "+")))
     ;; Resolve precedence ambiguities.
     '((assoc " ; "))
-    '((assoc "," "|" "&") (nonassoc "?" "+" "*"))))
+    '((assoc "," "|") (nonassoc "?" "+"))))
   "A smie-grammar for `smie-base-rnc-mini-mode'.")
 
 (defun smie-base-rnc-mini-smie-forward-token ()
@@ -127,19 +115,14 @@ Taken from the grammar in http://relaxng.org/compact-20021121.html")
   "A smie-rules for `smie-base-rnc-mini-mode'.
 TOKEN is recognized as KIND."
   (pcase (cons kind token)
-    (`(:list-intro . "element") t)
     (`(:elem . empty-line-token) " ; ") ; newline indent
-    (`(:before . ,(or "include" "default" "namespace" "datatypes")) 0)
     (`(:before . "{")
      (save-excursion
        (smie-base-rnc-mini-smie-backward-token)
        (when (member (smie-base-rnc-mini-smie-backward-token)
                      '("element" "attribute"))
          `(column . ,(smie-indent-virtual)))))
-    (`(:after . ,(or "=" "|=" "&=")) smie-indent-basic)
-    (`(:before . ,(or "|" "&" ","))
-     (and (smie-rule-bolp) (smie-rule-parent-p "(" "{") (smie-rule-parent)))
-    (`(,_ . " ; ") (smie-rule-separator kind))))
+    (`(:after . ,(or "=" "|=" "&=")) smie-indent-basic)))
 
 (define-derived-mode smie-base-rnc-mini-mode prog-mode "sb-RNC"
   "Major-mode for RNC of SMIE collection."
