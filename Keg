@@ -1,0 +1,9 @@
+;; Keg
+
+(source gnu melpa)
+
+(package
+ (smie-base
+   (recipe . (smie-base :fetcher github :repo "conao3/smie-base.el"))))
+
+(dev-dependency cort)
