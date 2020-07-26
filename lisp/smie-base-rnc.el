@@ -30,6 +30,17 @@
   :group 'convenience
   :link '(url-link :tag "Github" "https://github.com/conao3/smie-base.el"))
 
+(defconst smie-base-rnc-mode-syntax-table
+  (let ((st (make-syntax-table)))
+    (modify-syntax-entry ?\{ "(}" st)
+    (modify-syntax-entry ?\} "){" st)
+    (modify-syntax-entry ?\" "\"" st)
+    (modify-syntax-entry ?# "<" st)
+    (modify-syntax-entry ?\n ">" st)
+    (modify-syntax-entry ?: "_" st)
+    st)
+  "A `syntax-table' for `smie-base-rnc-mode'.")
+
 (provide 'smie-base-rnc)
 
 ;; Local Variables:
