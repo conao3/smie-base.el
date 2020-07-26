@@ -4,6 +4,7 @@
 
 (package
  (smie-base
-   (recipe . (smie-base :fetcher github :repo "conao3/smie-base.el"))))
+  (recipe . (smie-base :fetcher github :repo "conao3/smie-base.el"
+                       :files (:defaults "lisp/*.el")))))
 
 (dev-dependency cort)
