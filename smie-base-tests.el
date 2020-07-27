@@ -97,73 +97,73 @@ recette = element recette {
 
 ;;; smie-base-ada
 
-(cort-deftest--major-mode-indent smie-base-ada/RADWIMPS
-    #'smie-base-ada-mode
-  '(("\
-with Ada.Text_IO;
-use Ada.Text_IO;
+;; (cort-deftest--major-mode-indent smie-base-ada/RADWIMPS
+;;     #'smie-base-ada-mode
+;;   '(("\
+;; with Ada.Text_IO;
+;; use Ada.Text_IO;
 
-procedure RADWIMPS is
-package Rad_Package is
-type Rad is tagged null record;
+;; procedure RADWIMPS is
+;; package Rad_Package is
+;; type Rad is tagged null record;
 
-procedure se(Self: in Rad);
+;; procedure se(Self: in Rad);
 
-function t_hen(Self: in Rad) return Rad;
-end Rad_Package;
+;; function t_hen(Self: in Rad) return Rad;
+;; end Rad_Package;
 
-package body Rad_Package is
-procedure se(Self: in Rad) is
-begin
-put_line(\"世\");
-end se;
+;; package body Rad_Package is
+;; procedure se(Self: in Rad) is
+;; begin
+;; put_line(\"世\");
+;; end se;
 
-function t_hen(Self: in Rad) return Rad is
-begin
-put(\"前\");
-return Self;
-end t_hen;
-end Rad_Package;
+;; function t_hen(Self: in Rad) return Rad is
+;; begin
+;; put(\"前\");
+;; return Self;
+;; end t_hen;
+;; end Rad_Package;
 
-use Rad_Package;
+;; use Rad_Package;
 
-RADWIMPS: Rad;
-begin
-RADWIMPS.t_hen.t_hen.t_hen.se;
-end RADWIMPS;
-"
-     "\
-with Ada.Text_IO;
-use Ada.Text_IO;
+;; RADWIMPS: Rad;
+;; begin
+;; RADWIMPS.t_hen.t_hen.t_hen.se;
+;; end RADWIMPS;
+;; "
+;;      "\
+;; with Ada.Text_IO;
+;; use Ada.Text_IO;
 
-procedure RADWIMPS is
-   package Rad_Package is
-      type Rad is tagged null record;
+;; procedure RADWIMPS is
+;;    package Rad_Package is
+;;       type Rad is tagged null record;
 
-      procedure se(Self: in Rad);
+;;       procedure se(Self: in Rad);
 
-      function t_hen(Self: in Rad) return Rad;
-   end Rad_Package;
+;;       function t_hen(Self: in Rad) return Rad;
+;;    end Rad_Package;
 
-   package body Rad_Package is
-      procedure se(Self: in Rad) is
-      begin
-         put_line(\"世\");
-      end se;
+;;    package body Rad_Package is
+;;       procedure se(Self: in Rad) is
+;;       begin
+;;          put_line(\"世\");
+;;       end se;
 
-      function t_hen(Self: in Rad) return Rad is
-      begin
-         put(\"前\");
-         return Self;
-      end t_hen;
-   end Rad_Package;
+;;       function t_hen(Self: in Rad) return Rad is
+;;       begin
+;;          put(\"前\");
+;;          return Self;
+;;       end t_hen;
+;;    end Rad_Package;
 
-   use Rad_Package;
+;;    use Rad_Package;
 
-   RADWIMPS: Rad;
-begin
-   RADWIMPS.t_hen.t_hen.t_hen.se;
-end RADWIMPS;")))
+;;    RADWIMPS: Rad;
+;; begin
+;;    RADWIMPS.t_hen.t_hen.t_hen.se;
+;; end RADWIMPS;")))
 
 ;; (provide 'smie-base-tests)
 
