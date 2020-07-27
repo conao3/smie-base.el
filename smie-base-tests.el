@@ -28,6 +28,7 @@
 (require 'cort)
 (require 'smie-base)
 (require 'smie-base-rnc-mini)
+(require 'smie-base-ada)
 
 (setq-default indent-tabs-mode nil)
 
