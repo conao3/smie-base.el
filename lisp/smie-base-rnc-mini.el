@@ -64,7 +64,7 @@ Taken from the grammar in http://relaxng.org/compact-20021121.html")
   (smie-prec2->grammar
    (smie-bnf->prec2
     '((id)
-      (exps (exp) (exp ";" exp))
+      (exps (exp) (exp " ; " exp))
       (exp (id "=" pat))
       (pat (pat "+") (pat "*") (pat "?")
            (pat "," pat) (pat "|" pat) (pat "&" pat)
@@ -138,9 +138,8 @@ TOKEN is recognized as KIND."
   (setq-local font-lock-defaults '(smie-base-rnc-mini-font-lock-keywords))
   (setq-local imenu-generic-expression smie-base-rnc-mini-imenu-generic-expression)
   (smie-setup smie-base-rnc-mini-smie-grammar #'smie-base-rnc-mini-smie-rules
-              ;; :forward-token #'smie-base-rnc-mini-smie-forward-token
-              ;; :backward-token #'smie-base-rnc-mini-smie-backward-token
-              ))
+              :forward-token #'smie-base-rnc-mini-smie-forward-token
+              :backward-token #'smie-base-rnc-mini-smie-backward-token))
 
 (provide 'smie-base-rnc-mini)
 
