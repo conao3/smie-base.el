@@ -9,7 +9,7 @@ jobs:
     strategy:
       matrix:
         emacs_version:
-          - '29.1'
+          - '26.1'
           - '30.2'
           - '31.1'
           - 'snapshot'
